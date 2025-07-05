@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://cr7twjdbybo4s"]
+
+[ext_resource type="Script" uid="uid://bioy31xlshylu" path="res://Decor/door.gd" id="1_3tmpk"]
+[ext_resource type="Texture2D" uid="uid://dpf1ucaq3hy0t" path="res://Assetsss/item/door/Door Frames/Door Frame - Door With Keypad.png" id="2_2wltq"]
+[ext_resource type="Texture2D" uid="uid://cgcv2fgla6gcd" path="res://Assetsss/item/door/Left Swinging Doors/Black Door - With Keypad.png" id="2_bqum6"]
+[ext_resource type="AudioStream" uid="uid://dgsx0hr1gqm0q" path="res://Assetsss/music/Minimalist12.wav" id="4_u6u50"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jo41y"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gxyi"]
+atlas = ExtResource("2_bqum6")
+region = Rect2(0, 0, 402, 882)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dp278"]
+atlas = ExtResource("2_2wltq")
+region = Rect2(0, 0, 466, 908)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x1fqj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gxyi")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dp278")
+}],
+"loop": true,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[node name="Door" type="Area2D"]
+script = ExtResource("1_3tmpk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+rotation = -7.85398
+scale = Vector2(0.5, 0.5)
+skew = -1.56905
+shape = SubResource("RectangleShape2D_jo41y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.2056e-07, -0.500001)
+scale = Vector2(0.039801, 0.037415)
+sprite_frames = SubResource("SpriteFrames_x1fqj")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_u6u50")
+bus = &"SFX"

@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://bkm1idwsv6twf"]
+
+[ext_resource type="Script" path="res://Items/box.gd" id="1_m0nbw"]
+[ext_resource type="Texture2D" uid="uid://bi4eo6uyve6xd" path="res://Assetsss/item/other/TX Village Props.png" id="1_n3vdu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qssqa"]
+friction = 0.5
+bounce = 0.25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tl6dr"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uid4"]
+atlas = ExtResource("1_n3vdu")
+region = Rect2(42, 19, 45, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oat2m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uid4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Box" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_qssqa")
+gravity_scale = 0.25
+script = ExtResource("1_m0nbw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+physics_interpolation_mode = 1
+shape = SubResource("RectangleShape2D_tl6dr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.355556, 0.355556)
+sprite_frames = SubResource("SpriteFrames_oat2m")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

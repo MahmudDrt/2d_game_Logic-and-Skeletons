@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://t6aaf1ataj1t"]
+
+[ext_resource type="Texture2D" uid="uid://bi4eo6uyve6xd" path="res://Assetsss/item/other/TX Village Props.png" id="1_vfep0"]
+
+[sub_resource type="GDScript" id="GDScript_atkbc"]
+script/source = "extends Area2D
+
+@export var hint_index: int = 0
+
+func _ready():
+	connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == \"Player\":
+		var hint_label = get_node(\"/root/Level/CanvasLayer/HintLabel\")
+		hint_label.show_hint(hint_index)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sl52y"]
+size = Vector2(48, 48)
+
+[node name="HintTrigger" type="Area2D"]
+script = SubResource("GDScript_atkbc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.333, 0.333)
+shape = SubResource("RectangleShape2D_sl52y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.5, 0)
+scale = Vector2(0.395, 0.395)
+texture = ExtResource("1_vfep0")
+hframes = 26
+vframes = 12
+frame = 12
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

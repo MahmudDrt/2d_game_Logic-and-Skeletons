@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bc3rsb0snlkx8"]
+
+[ext_resource type="Script" uid="uid://4l2cd7e53hj5" path="res://Device/button.gd" id="1_pmysr"]
+[ext_resource type="AudioStream" uid="uid://fsduw7w1k8f0" path="res://Assetsss/music/Minimalist4.wav" id="2_vjw4n"]
+[ext_resource type="Texture2D" uid="uid://c5xrikosspoc6" path="res://Assetsss/item/lever/buttom.png" id="2_vm1lg"]
+[ext_resource type="Texture2D" uid="uid://c3uxund4vjyk2" path="res://Assetsss/item/lever/buttom_pressed.png" id="3_cyfss"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpy6f"]
+size = Vector2(12, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3l5ay"]
+atlas = ExtResource("2_vm1lg")
+region = Rect2(0, 0, 16, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j16g4"]
+atlas = ExtResource("3_cyfss")
+region = Rect2(0, 0, 16, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4nqr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3l5ay")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j16g4")
+}],
+"loop": true,
+"name": &"Press",
+"speed": 5.0
+}]
+
+[node name="Button" type="Area2D"]
+script = ExtResource("1_pmysr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fpy6f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0, 1, 0.835294, 1)
+self_modulate = Color(1, 0.768627, 0.752941, 1)
+position = Vector2(0, -1)
+sprite_frames = SubResource("SpriteFrames_d4nqr")
+animation = &"Press"
+autoplay = "Idle"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_vjw4n")
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_Button_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Button_body_exited"]

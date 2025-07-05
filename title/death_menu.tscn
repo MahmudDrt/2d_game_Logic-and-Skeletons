@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://blb0kmbhhnwsd"]
+
+[ext_resource type="Script" uid="uid://da8gxvrst5mje" path="res://title/death_menu.gd" id="1_5dvgy"]
+
+[node name="DeathMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5dvgy")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 832.0
+offset_bottom = 192.0
+theme_override_font_sizes/font_size = 75
+text = "Вы умерли"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 259.009
+offset_right = 896.0
+offset_bottom = 509.009
+theme_override_constants/separation = 50
+
+[node name="Restart" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Начать сначала"
+
+[node name="Menu" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Главное меню"

@@ -1,0 +1,299 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1cll51kolbd0"]
+
+[ext_resource type="Script" uid="uid://ch03wdwrbel83" path="res://Level/menu.gd" id="1_45dxy"]
+[ext_resource type="Shader" uid="uid://cacv3g8h3ylpu" path="res://title/Logo.gdshader" id="2_degkh"]
+[ext_resource type="PackedScene" uid="uid://dkfbrfdni5od2" path="res://version/bg_Jungle.tscn" id="2_ugvx3"]
+[ext_resource type="AudioStream" uid="uid://clhlfs5vkc2yc" path="res://Assetsss/music/001_Synthwave_4k.mp3" id="3_a4ex3"]
+[ext_resource type="Texture2D" uid="uid://b48b1usn3mehu" path="res://Assetsss/logo/32132.png" id="3_amdpt"]
+[ext_resource type="Script" uid="uid://cqoyertm20k7n" path="res://title/music_volume_slider.gd" id="4_degkh"]
+
+[sub_resource type="Shader" id="Shader_amdpt"]
+code = "extends Node2D
+
+@onready var logo := $Logo
+
+var appear_shader := preload(\"res://shaders/appear_from_noise.shader\")
+var pulse_shader := preload(\"res://shaders/pulse.shader\")
+
+func _ready():
+    var appear_material = ShaderMaterial.new()
+    appear_material.shader = appear_shader
+    logo.material = appear_material
+
+    await get_tree().create_timer(2.5).timeout
+
+    var pulse_material = ShaderMaterial.new()
+    pulse_material.shader = pulse_shader
+    logo.material = pulse_material
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_duhk6"]
+render_priority = 0
+shader = SubResource("Shader_amdpt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hx3j5"]
+shader = ExtResource("2_degkh")
+shader_parameter/appear_time = 2.0
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_45dxy")
+
+[node name="MainButtons" type="Control" parent="."]
+material = SubResource("ShaderMaterial_duhk6")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Logo" type="TextureRect" parent="MainButtons"]
+material = SubResource("ShaderMaterial_hx3j5")
+layout_mode = 0
+offset_left = 447.0
+offset_top = -18.0
+offset_right = 1471.0
+offset_bottom = 1006.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_amdpt")
+metadata/_edit_use_anchors_ = true
+
+[node name="Play" type="Button" parent="MainButtons"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 225.0
+offset_right = 832.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 50
+text = "Играть"
+
+[node name="Settings" type="Button" parent="MainButtons"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 358.0
+offset_right = 832.0
+offset_bottom = 486.0
+theme_override_font_sizes/font_size = 50
+text = "Настройки"
+
+[node name="Credits" type="Button" parent="MainButtons"]
+layout_mode = 0
+offset_left = 976.0
+offset_top = 553.0
+offset_right = 1134.0
+offset_bottom = 630.0
+theme_override_font_sizes/font_size = 50
+text = "Автор"
+
+[node name="Quit" type="Button" parent="MainButtons"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 491.0
+offset_right = 832.0
+offset_bottom = 619.0
+theme_override_font_sizes/font_size = 50
+text = "Выход"
+
+[node name="SettingsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ColorRect" type="ColorRect" parent="SettingsPanel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.666667)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = -250.0
+offset_right = 475.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 75
+text = "НАСТРОЙКИ"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Общее"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+script = ExtResource("4_degkh")
+audio_bus_name = "Master"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Музыка"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(500, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.1
+script = ExtResource("4_degkh")
+audio_bus_name = "Music"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Эффекты"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(500, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.1
+script = ExtResource("4_degkh")
+audio_bus_name = "SFX"
+
+[node name="FullscreenCheck" type="CheckBox" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Полноэкранный режим"
+
+[node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(512, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 50
+text = "Назад"
+
+[node name="CreditsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ColorRect" type="ColorRect" parent="CreditsPanel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.666667)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 101.0
+offset_top = 61.5
+offset_right = -99.0
+offset_bottom = -61.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="CreditsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "
+
+
+Разработка: Blaster Blade
+Движок: Godot Engine
+Жанр: Puzzle Platformer
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="CreditsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(512, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 50
+text = "Назад"
+
+[node name="BG" parent="." instance=ExtResource("2_ugvx3")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_a4ex3")
+autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="MainButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainButtons/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MainButtons/Quit" to="." method="_on_quit_pressed"]
+[connection signal="value_changed" from="SettingsPanel/VBoxContainer/HBoxContainer/MusicVolumeSlider" to="SettingsPanel/VBoxContainer/HBoxContainer/MusicVolumeSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/VBoxContainer/HBoxContainer2/MusicVolumeSlider" to="SettingsPanel/VBoxContainer/HBoxContainer2/MusicVolumeSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/VBoxContainer/HBoxContainer3/MusicVolumeSlider" to="SettingsPanel/VBoxContainer/HBoxContainer3/MusicVolumeSlider" method="_on_value_changed"]
+[connection signal="toggled" from="SettingsPanel/VBoxContainer/FullscreenCheck" to="." method="_on_fullscreen_check_toggled"]
+[connection signal="pressed" from="SettingsPanel/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CreditsPanel/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

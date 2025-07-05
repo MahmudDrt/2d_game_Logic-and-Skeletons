@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkm1idwsv6twf"]
+
+[ext_resource type="Script" uid="uid://yb1nyc8t7fvv" path="res://Decor/box.gd" id="1_m0nbw"]
+[ext_resource type="Texture2D" uid="uid://bi4eo6uyve6xd" path="res://Assetsss/item/other/TX Village Props.png" id="1_n3vdu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2ykxp"]
+absorbent = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uid4"]
+atlas = ExtResource("1_n3vdu")
+region = Rect2(42, 19, 45, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oat2m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uid4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Box" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_2ykxp")
+lock_rotation = true
+script = ExtResource("1_m0nbw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.355556, 0.355556)
+sprite_frames = SubResource("SpriteFrames_oat2m")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -8, -6.00816, -7.83674, -7.18367, -7.18367, -7.83674, -6.00816, -8, 0.00575542, -7.83674, 6.00816, -7.18367, 7.18367, -6.00816, 7.83674, 0.00297976, 8, 6.00816, 7.83674, 7.31429, 7.31429, 7.83674, 6.00816, 8, 0.00575638, 7.70612, -6.00816, 7.31429, -7.18367, 6.00816, -7.83674)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
